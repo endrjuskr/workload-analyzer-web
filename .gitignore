@@ -58,3 +58,5 @@ target/
 venv
 *.pyc
 staticfiles
+
+.DS_STORE

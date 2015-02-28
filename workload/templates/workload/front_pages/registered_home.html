@@ -1,0 +1,23 @@
+{% block content %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Run date</th>
+            <th>Show</th>
+        </tr>
+        </thead>
+        {% for workload in workload_list %}
+            <tr>
+                <td>{{ workload.name }}</td>
+                <td>{{ workload.run_date }}</td>
+                <td>
+                    <button type="button" onclick="render(Dajaxice.app.new_child_form, EMPTY_DIC)">
+                        View
+                    </button>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}

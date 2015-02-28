@@ -3,7 +3,10 @@ from django.db import models
 
 class Machine(models.Model):
     name = models.CharField(max_length=200)
-    description = models.CharField(max_length=200)
+    description = models.CharField(max_length=400)
+    processor_name = models.CharField(max_length=200, default="")
+    available_memory = models.CharField(max_length=200, default="")
+    swap_memory = models.CharField(max_length=200, default="")
 
     def __unicode__(self):
         return u'%s' % (self.name)
@@ -15,13 +18,6 @@ class Task(models.Model):
 
     def __unicode__(self):
         return u'%s' % (self.name)
-
-
-class Comment(models.Model):
-    run_date = models.DateTimeField('run date')
-    author = models.CharField(max_length=200)
-    content = models.CharField(max_length=200)
-    pub_date = models.DateTimeField('publish date')
 
 
 class Workload(models.Model):
@@ -43,6 +39,17 @@ class Execution(models.Model):
 
     def __unicode__(self):
         return u'%s (%s)' % (self.name, str(self.run_date))
+
+
+class Comment(models.Model):
+    execution = models.ForeignKey(Execution)
+    workload = models.ForeignKey(Workload)
+    author = models.CharField(max_length=200)
+    content = models.CharField(max_length=200)
+    pub_date = models.DateTimeField('publish date')
+
+    def __unicode__(self):
+        return u'%s %s' % (self.author, str(self.pub_date))
 
 
 class ExecutionParam(models.Model):
