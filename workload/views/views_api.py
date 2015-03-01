@@ -57,6 +57,7 @@ def add_execution_comment(request):
 
     return HttpResponse(json.dumps(result), content_type='application/json')
 
+
 @csrf_exempt
 def register_machine(request):
     assert (request.method == REQUEST_METHOD)
@@ -66,10 +67,27 @@ def register_machine(request):
     machine = machine['machine']
 
     machine_model = Machine(name=machine['name'],
-                      processor_name=machine['processor_name'],
-                      available_memory=machine['available_memory'],
-                      swap_memory=machine['swap_memory'])
+                            processor_name=machine['processor_name'],
+                            available_memory=machine['available_memory'],
+                            swap_memory=machine['swap_memory'])
 
     machine_model.save()
+
+    result["machine_id"] = machine_model.id
+
+    return HttpResponse(json.dumps(result), content_type='application/json')
+
+
+@csrf_exempt
+def get_machine(request):
+    assert (request.method == REQUEST_METHOD)
+    result = get_status_dictionary(True)
+
+    machine = json.loads(request.body)
+    machine = machine['machine']
+
+    machine_model = Machine.objects.get(name=machine)
+
+    result["machine_id"] = machine_model.id
 
     return HttpResponse(json.dumps(result), content_type='application/json')
