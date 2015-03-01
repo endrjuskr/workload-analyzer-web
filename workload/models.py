@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime, timedelta
 
 
 class Machine(models.Model):
@@ -23,7 +24,7 @@ class Task(models.Model):
 class Workload(models.Model):
     name = models.CharField(max_length=200)
     description = models.CharField(max_length=200)
-    run_date = models.DateTimeField('run date')
+    run_date = models.DateTimeField('run date', default=datetime.now())
     run_machine = models.ForeignKey(Machine)
 
     def __unicode__(self):
@@ -31,7 +32,7 @@ class Workload(models.Model):
 
 
 class Execution(models.Model):
-    run_date = models.DateTimeField('run date')
+    run_date = models.DateTimeField('run date', default=datetime.now())
     name = models.CharField(max_length=200)
     description = models.CharField(max_length=200)
     task = models.ForeignKey(Task)
@@ -71,7 +72,7 @@ class WorkloadResult(models.Model):
 
 
 class ExecutionResult(models.Model):
-    workload = models.ForeignKey(Workload)
+    execution = models.ForeignKey(Execution)
     value = models.CharField(max_length=200)
     key = models.CharField(max_length=200)
 

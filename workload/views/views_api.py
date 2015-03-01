@@ -60,22 +60,25 @@ def add_execution_comment(request):
 
 def create_process(process, workload):
     task_model = Task.objects.get(pk=process["type"])
-    execution_model = Execution(name=process["name"], task=task_model, workload=workload, run_date=time.strftime("%H:%M:%S %d/%m/%Y"))
+    execution_model = Execution(name=process["name"], task=task_model, workload=workload)
     execution_model.save()
-    for c in process["param"]:
-        workload_result = ExecutionParam(execution=execution_model, key=c["name"], value=c["value"])
+    for c in process["params"]:
+        print c
+        workload_result = ExecutionParam(execution=execution_model, key=c["key"], value=c["value"])
         workload_result.save()
+    print "results"
     for c in process["results"]:
-        workload_result = ExecutionResult(execution=execution_model, key=c["name"], value=c["value"])
+        print c
+        workload_result = ExecutionResult(execution=execution_model, key=c["key"], value=c["value"])
         workload_result.save()
 
 
 
 def create_workload(task, machine, date):
-    workload_model = Workload(run_machine=machine, run_date=date, name=task["name"])
+    workload_model = Workload(run_machine=machine, name=task["name"])
     workload_model.save()
-    for c in task["usages"]:
-        workload_result = WorkloadResult(workload_result=workload_model, key=c["name"], value=c["value"])
+    for c in task["usage"]:
+        workload_result = WorkloadResult(workload=workload_model, key=c["key"], value=c["value"])
         workload_result.save()
     map(lambda x: create_process(x, workload_model), task["processes"])
 
