@@ -5,6 +5,7 @@ from workload.views import views_api, views_app
 
 urlpatterns = patterns('',
     url(r'register_machine', views_api.register_machine, name='register_machine'),
+    url(r'add_workload', views_api.add_workload, name='add_workload'),
     url(r'^$', views_app.home, name='home'),
     url(r'^register$', views_app.register, name='register'),
     url(r'^login$', 'django.contrib.auth.views.login',
