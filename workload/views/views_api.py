@@ -59,6 +59,16 @@ def add_execution_comment(request):
 
 
 @csrf_exempt
+def add_workload(request):
+    assert (request.method == REQUEST_METHOD)
+    result = get_status_dictionary(True)
+    workload = json.loads(request.body)
+    print workload
+
+    return HttpResponse(json.dumps(result), content_type='application/json')
+
+
+@csrf_exempt
 def register_machine(request):
     assert (request.method == REQUEST_METHOD)
     result = get_status_dictionary(True)
