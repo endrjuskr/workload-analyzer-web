@@ -62,13 +62,14 @@ def register_machine(request):
     assert (request.method == REQUEST_METHOD)
     result = get_status_dictionary(True)
 
-    print request.body
-    machine = json.loads(request.body)['machine']
+    machine = json.loads(request.body)
+    machine = machine['machine']
 
     machine_model = Machine(name=machine['name'],
                       processor_name=machine['processor_name'],
                       available_memory=machine['available_memory'],
                       swap_memory=machine['swap_memory'])
+
     machine_model.save()
 
     return HttpResponse(json.dumps(result), content_type='application/json')
