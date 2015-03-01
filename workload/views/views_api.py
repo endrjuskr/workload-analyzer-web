@@ -58,12 +58,39 @@ def add_execution_comment(request):
     return HttpResponse(json.dumps(result), content_type='application/json')
 
 
+def create_process(process, workload):
+    task_model = Task.objects.get(pk=process["type"])
+    execution_model = Execution(name=process["name"], task=task_model, workload=workload, run_date=time.strftime("%H:%M:%S %d/%m/%Y"))
+    execution_model.save()
+    for c in process["param"]:
+        workload_result = ExecutionParam(execution=execution_model, key=c["name"], value=c["value"])
+        workload_result.save()
+    for c in process["results"]:
+        workload_result = ExecutionResult(execution=execution_model, key=c["name"], value=c["value"])
+        workload_result.save()
+
+
+
+def create_workload(task, machine, date):
+    workload_model = Workload(run_machine=machine, run_date=date, name=task["name"])
+    workload_model.save()
+    for c in task["usages"]:
+        workload_result = WorkloadResult(workload_result=workload_model, key=c["name"], value=c["value"])
+        workload_result.save()
+    map(lambda x: create_process(x, workload_model), task["processes"])
+
+
+
 @csrf_exempt
 def add_workload(request):
     assert (request.method == REQUEST_METHOD)
     result = get_status_dictionary(True)
     workload = json.loads(request.body)
-    print workload
+    machine = Machine.objects.get(pk=workload["machine"])
+    map(lambda x: create_workload(x, machine, time.strftime("%H:%M:%S %d/%m/%Y")), workload["tasks"])
+
+    #workload_model = Workload(run_machine=machine, run_date=time.strftime("%H:%M:%S %d/%m/%Y"), name=workload["name"])
+    #workload_model.save()
 
     return HttpResponse(json.dumps(result), content_type='application/json')
 

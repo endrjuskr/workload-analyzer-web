@@ -59,3 +59,22 @@ class ExecutionParam(models.Model):
 
     def __unicode__(self):
         return u'%s - %s' % (self.key, self.value)
+
+
+class WorkloadResult(models.Model):
+    workload = models.ForeignKey(Workload)
+    value = models.CharField(max_length=200)
+    key = models.CharField(max_length=200)
+
+    def __unicode__(self):
+        return u'%s - %s' % (self.key, self.value)
+
+
+class ExecutionResult(models.Model):
+    workload = models.ForeignKey(Workload)
+    value = models.CharField(max_length=200)
+    key = models.CharField(max_length=200)
+
+    def __unicode__(self):
+        return u'%s - %s' % (self.key, self.value)
+
