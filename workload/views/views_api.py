@@ -58,9 +58,9 @@ def add_execution_comment(request):
     return HttpResponse(json.dumps(result), content_type='application/json')
 
 
-def create_process(process, workload):
+def create_process(process, workload, date):
     task_model = Task.objects.get(pk=process["type"])
-    execution_model = Execution(name=process["name"], task=task_model, workload=workload)
+    execution_model = Execution(name=process["name"], task=task_model, workload=workload, run_date=date)
     execution_model.save()
     for c in process["params"]:
         print c
@@ -74,13 +74,13 @@ def create_process(process, workload):
 
 
 
-def create_workload(task, machine, date):
-    workload_model = Workload(run_machine=machine, name=task["name"])
+def create_workload(task, machine):
+    workload_model = Workload(run_machine=machine, name=task["name"], run_date=task["run_time"])
     workload_model.save()
     for c in task["usage"]:
         workload_result = WorkloadResult(workload=workload_model, key=c["key"], value=c["value"])
         workload_result.save()
-    map(lambda x: create_process(x, workload_model), task["processes"])
+    map(lambda x: create_process(x, workload_model, task["run_time"]), task["processes"])
 
 
 
@@ -90,7 +90,7 @@ def add_workload(request):
     result = get_status_dictionary(True)
     workload = json.loads(request.body)
     machine = Machine.objects.get(pk=workload["machine"])
-    map(lambda x: create_workload(x, machine, time.strftime("%H:%M:%S %d/%m/%Y")), workload["tasks"])
+    map(lambda x: create_workload(x, machine), workload["tasks"])
 
     #workload_model = Workload(run_machine=machine, run_date=time.strftime("%H:%M:%S %d/%m/%Y"), name=workload["name"])
     #workload_model.save()
