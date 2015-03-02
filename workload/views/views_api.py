@@ -43,7 +43,6 @@ def add_execution_comment(request):
     assert (request.method == REQUEST_METHOD)
     result = get_status_dictionary(True)
 
-    print request.body
     comment = json.loads(request.body)['comment']
 
     execution = Execution.objects.get(pk=comment['execution_id'])
@@ -63,12 +62,9 @@ def create_process(process, workload, date):
     execution_model = Execution(name=process["name"], task=task_model, workload=workload, run_date=date)
     execution_model.save()
     for c in process["params"]:
-        print c
         workload_result = ExecutionParam(execution=execution_model, key=c["key"], value=c["value"])
         workload_result.save()
-    print "results"
     for c in process["results"]:
-        print c
         workload_result = ExecutionResult(execution=execution_model, key=c["key"], value=c["value"])
         workload_result.save()
 
@@ -76,6 +72,10 @@ def create_process(process, workload, date):
 
 def create_workload(task, machine):
     d = time.strptime(task["run_time"], "%a, %d %b %Y %H:%M:%S +0000")
+    from time import mktime
+    from datetime import datetime
+    d = datetime.fromtimestamp(mktime(d))
+
     workload_model = Workload(run_machine=machine, name=task["name"], run_date=d)
     workload_model.save()
     for c in task["usage"]:
