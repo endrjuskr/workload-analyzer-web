@@ -4,6 +4,7 @@
         <tr>
             <th>Name</th>
             <th>Run date</th>
+            <th>Machine</th>
             <th>Show</th>
         </tr>
         </thead>
@@ -11,6 +12,7 @@
             <tr>
                 <td>{{ workload.name }}</td>
                 <td>{{ workload.run_date }}</td>
+                <td>{{ workload.machine.name }}</td>
                 <td>
                     <button type="button" onclick="render(Dajaxice.app.new_child_form, EMPTY_DIC)">
                         View
