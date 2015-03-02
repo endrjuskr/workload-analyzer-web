@@ -75,12 +75,13 @@ def create_process(process, workload, date):
 
 
 def create_workload(task, machine):
-    workload_model = Workload(run_machine=machine, name=task["name"], run_date=task["run_time"])
+    d = time.strptime(task["run_time"], "%a, %d %b %Y %H:%M:%S +0000")
+    workload_model = Workload(run_machine=machine, name=task["name"], run_date=d)
     workload_model.save()
     for c in task["usage"]:
         workload_result = WorkloadResult(workload=workload_model, key=c["key"], value=c["value"])
         workload_result.save()
-    map(lambda x: create_process(x, workload_model, task["run_time"]), task["processes"])
+    map(lambda x: create_process(x, workload_model, d), task["processes"])
 
 
 
