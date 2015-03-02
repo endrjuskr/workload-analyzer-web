@@ -23,7 +23,6 @@ def add_workload_comment(request):
     assert (request.method == REQUEST_METHOD)
     result = get_status_dictionary(True)
 
-    print request.body
     comment = json.loads(request.body)['comment']
 
     workload = Workload.objects.get(pk=comment['workload_id'])

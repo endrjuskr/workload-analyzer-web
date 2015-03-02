@@ -103,7 +103,7 @@ STATIC_URL = '/static/'
 
 # Parse database configuration from $DATABASE_URL
 import dj_database_url
-DATABASES['default'] = dj_database_url.config(default='postgres://vrghqtlcfutwtc:7XKr5WZesMC1_jX83xtEFkmcn_@ec2-54-247-77-103.eu-west-1.compute.amazonaws.com:5432/decfua4001ou4n')
+#DATABASES['default'] = dj_database_url.config(default='postgres://vrghqtlcfutwtc:7XKr5WZesMC1_jX83xtEFkmcn_@ec2-54-247-77-103.eu-west-1.compute.amazonaws.com:5432/decfua4001ou4n')
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')

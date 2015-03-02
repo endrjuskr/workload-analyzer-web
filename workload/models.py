@@ -43,11 +43,11 @@ class Execution(models.Model):
 
 
 class Comment(models.Model):
-    execution = models.ForeignKey(Execution)
-    workload = models.ForeignKey(Workload)
+    execution = models.ForeignKey(Execution, blank=True, null=True)
+    workload = models.ForeignKey(Workload, blank=True, null=True)
     author = models.CharField(max_length=200)
     content = models.CharField(max_length=200)
-    pub_date = models.DateTimeField('publish date')
+    pub_date = models.DateTimeField('publish date', default=datetime.now())
 
     def __unicode__(self):
         return u'%s %s' % (self.author, str(self.pub_date))

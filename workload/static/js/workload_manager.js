@@ -1,0 +1,24 @@
+function submit_new_execution_comment() {
+    render(Dajaxice.workload.add_execution_comment_submit, {'form': $('#comment_form').serialize(true)});
+}
+
+function submit_new_workload_comment(id) {
+    render(Dajaxice.workload.add_workload_comment_submit, {'form': $('#comment_form').serialize(true), 'workload_id': id});
+}
+
+
+function submit_edit_child(child_id) {
+    render(Dajaxice.app.edit_child_submit, {'form': $('#piggy_form').serialize(true), 'child_id': child_id});
+}
+
+function remove_child(id) {
+    render(Dajaxice.app.remove_child, {'child_id': id});
+}
+
+function new_execution_comment(id) {
+    render(Dajaxice.workload.add_execution_comment_form, {'execution_id': id});
+}
+
+function new_workload_comment(id) {
+    render(Dajaxice.workload.add_workload_comment_form, {'workload_id': id});
+}

@@ -1,0 +1,7 @@
+<form id="comment_form" method="post">{% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="button" onclick="history.back();">Cancel</button>
+    <button type="button" onclick="submit_new_execution_comment()">Save</button>
+</form>

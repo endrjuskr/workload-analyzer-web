@@ -14,8 +14,8 @@
                 <td>{{ workload.run_date }}</td>
                 <td>{{ workload.machine.name }}</td>
                 <td>
-                    <button type="button" onclick="render(Dajaxice.app.new_child_form, EMPTY_DIC)">
-                        View
+                    <button type="button" onclick="new_workload_comment({{ workload.id }});">
+                        Add comment
                     </button>
                 </td>
             </tr>
