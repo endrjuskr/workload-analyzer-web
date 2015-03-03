@@ -12,10 +12,13 @@
             <tr>
                 <td>{{ workload.name }}</td>
                 <td>{{ workload.run_date }}</td>
-                <td>{{ workload.machine.name }}</td>
+                <td>{{ workload.run_machine.name }}</td>
                 <td>
                     <button type="button" onclick="new_workload_comment({{ workload.id }});">
                         Add comment
+                    </button>
+                    <button type="button" onclick="view_workload({{ workload.id }});">
+                        Show workload
                     </button>
                 </td>
             </tr>

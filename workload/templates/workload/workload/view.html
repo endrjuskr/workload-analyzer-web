@@ -1,0 +1,75 @@
+{% block content %}
+    <h1>Info</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Key</th>
+            <th>Value</th>
+        </tr>
+        </thead>
+        <tr>
+            <td>Name</td>
+            <td>{{ workload.name }}</td>
+        </tr>
+        <tr>
+            <td>Description</td>
+            <td>{{ workload.description }}</td>
+        </tr>
+        <tr>
+            <td>Machine</td>
+            <td>{{ workload.run_machine.name }}</td>
+        </tr>
+        <tr>
+            <td>Run time</td>
+            <td>{{ workload.run_date }}</td>
+        </tr>
+    </table>
+    <h1>Usage</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Value</th>
+        </tr>
+        </thead>
+        {% for usage in usage_list %}
+            <tr>
+                <td>{{ usage.key }}</td>
+                <td>{{ usage.value }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <h1>Processes</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Task</th>
+            <th>Params</th>
+            <th>Results</th>
+        </tr>
+        </thead>
+        {% for execution, results, params in execution_list %}
+            <tr>
+                <td>{{ execution.name }}</td>
+                <td>{{ execution.task.name }}</td>
+                <td>
+                    {% for p in params %}
+                        <p>
+                            {{ p.key }} - {{ p.value }}
+                        </p>
+                    {% endfor %}
+                </td>
+                <td>
+                    {% for p in results %}
+                        <p>
+                            {{ p.key }} - {{ p.value }}
+                        </p>
+                    {% endfor %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <button type="button" onclick="history.back();">Back</button>
+{% endblock %}

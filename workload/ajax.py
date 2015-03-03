@@ -14,7 +14,7 @@ def dashboard_ajax(request):
 
 @dajaxice_register(method=REQUEST_METHOD_GET, name='workload.view_workload')
 def view_workload_ajax(request, workload_id, form=None):
-    return view_workload(request, workload_id, form)
+    return view_workload(request, workload_id)
 
 
 @dajaxice_register(method=REQUEST_METHOD_POST, name='workload.add_workload_comment_submit')

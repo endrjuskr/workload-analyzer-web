@@ -19,6 +19,11 @@ function new_execution_comment(id) {
     render(Dajaxice.workload.add_execution_comment_form, {'execution_id': id});
 }
 
+function view_workload(id) {
+    render(Dajaxice.workload.view_workload, {'workload_id': id});
+}
+
+
 function new_workload_comment(id) {
     render(Dajaxice.workload.add_workload_comment_form, {'workload_id': id});
 }
