@@ -9,7 +9,7 @@ urlpatterns = patterns('',
     url(r'^$', views_app.home, name='home'),
     url(r'^register$', views_app.register, name='register'),
     url(r'^login$', 'django.contrib.auth.views.login',
-        {'template_name': 'workload/user_mgr/login.html', 'extra_context': {'next': '/'}},
+        {'template_name': 'workload/user_mgr/login.html', 'extra_context': {'next': '/workload'}},
         name='login'),
-    url(r'^logout$', 'django.contrib.auth.views.logout', {'next_page': '/'}, name='logout')
+    url(r'^logout$', 'django.contrib.auth.views.logout', {'next_page': '/workload'}, name='logout')
 )

@@ -11,7 +11,7 @@ History.Adapter.bind(window, 'statechange', function () {
     var hist_state = History.getState().data;
     if (hist_state) {
         if (hist_state.init)
-            Dajaxice.app.dashboard_ajax(render_response, EMPTY_DIC);
+            Dajaxice.workload.dashboard_ajax(render_response, EMPTY_DIC);
         else {
             var startBody = hist_state.render_fun.indexOf('{') + 1;
             var endBody = hist_state.render_fun.lastIndexOf('}');
