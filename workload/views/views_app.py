@@ -70,7 +70,7 @@ def view_workload(request, workload_id):
     status = ERROR_JS_CODE
     workload = Workload.objects.get(pk=workload_id)
 
-    usage = WorkloadResult.objects.filter(workload=workload)
+    usage = WorkloadResult.objects.filter(workload=workload, key__startwith='cpu')
     execution = Execution.objects.filter(workload=workload)
     execution = map(lambda x: (x, ExecutionResult.objects.filter(execution=x), ExecutionParam.objects.filter(execution=x)), execution)
     return JsonResponse(get_view_status_dictionary(status, render_to_string("workload/workload/view.html",
