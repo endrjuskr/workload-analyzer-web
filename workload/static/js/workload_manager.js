@@ -23,6 +23,10 @@ function view_workload(id) {
     render(Dajaxice.workload.view_workload, {'workload_id': id});
 }
 
+function view_workloads() {
+    render(Dajaxice.workload.view_workloads, {'workloads': id});
+}
+
 
 function new_workload_comment(id) {
     render(Dajaxice.workload.add_workload_comment_form, {'workload_id': id});

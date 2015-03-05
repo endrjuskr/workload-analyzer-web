@@ -47,14 +47,14 @@
     <table class="table">
         <thead>
         <tr>
-            <th>Key</th>
+            <th>Type</th>
             <th>Value</th>
         </tr>
         </thead>
-        {% for usage in io_list %}
+        {% for usage in io_types %}
             <tr>
-                <td>{{ usage.key }}</td>
-                <td>{{ usage.value }}</td>
+                <td>{{ usage }}</td>
+                <td>{{ usage|get_item:usage_list }}</td>
             </tr>
         {% endfor %}
     </table>

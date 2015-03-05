@@ -65,26 +65,47 @@ def new_execution_comment(request, execution_id, form=None):
                                                                     request))))
 
 
-@login_required
-def view_workload(request, workload_id):
-    status = ERROR_JS_CODE
+def get_workload(workload_id):
     workload = Workload.objects.get(pk=workload_id)
     usage_cpu = WorkloadResult.objects.filter(workload=workload).filter(key__startswith='cpu')
     usage_cpu = dict(zip(map(lambda x: x.key, usage_cpu), map(lambda x: x.value, usage_cpu)))
     usage_io = WorkloadResult.objects.filter(workload=workload).filter(key__startswith='io')
+    usage_io = dict(zip(map(lambda x: x.key, usage_io), map(lambda x: x.value, usage_io)))
     execution = Execution.objects.filter(workload=workload)
-    execution = map(lambda x: (x, ExecutionResult.objects.filter(execution=x), ExecutionParam.objects.filter(execution=x)), execution)
-    print "a"
-    return JsonResponse(get_view_status_dictionary(status, render_to_string("workload/workload/view.html",
-                                                                            {'workload': workload, 'usage_list':usage_cpu, 'cores': ["all", "1", "2", "3", "4"], 'io_list': usage_io, 'cpu_types': ["all", "sys", "idle", "soft"], 'execution_list':execution },
-    )))
+    execution = map(
+        lambda x: (x, ExecutionResult.objects.filter(execution=x), ExecutionParam.objects.filter(execution=x)),
+        execution)
+    return {'workload': workload, 'usage_list': usage_cpu, 'cores': ["all", "1", "2", "3", "4"], 'io_list': usage_io,
+            'cpu_types': ["all", "sys", "idle", "soft"],'io_types': ["user", "wait"], 'execution_list': execution}
+
+
+
+
+@login_required
+def view_workload(request, workload_id):
+    status = ERROR_JS_CODE
+    return JsonResponse(
+        get_view_status_dictionary(status, render_to_string("workload/workload/view.html", get_workload(workload_id))))
+
+@login_required
+def view_workloads(request, workloads):
+    status = ERROR_JS_CODE
+    w = map(get_workload, workloads)
+    return JsonResponse(
+        get_view_status_dictionary(status, render_to_string("workload/workload/view.html", { "workloads": w })))
+
 
 from django.template.defaulttags import register
 
+
 @register.filter
 def get_item(key, dictionary):
-    print dictionary, key
-    return dictionary.get(key)
+    t = ""
+    for p in ["AVG", "95", "99"]:
+        k = key + "_" + p
+        t += "<p>" + p + " - " + dictionary.get(k) + "</p>"
+    return
+
 
 @register.filter
 def cpu_usage(arg1, arg2):
