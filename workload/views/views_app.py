@@ -78,7 +78,7 @@ def get_workload(workload_id):
         lambda x: (x, ExecutionResult.objects.filter(execution=x), ExecutionParam.objects.filter(execution=x)),
         execution)
     return {'workload': workload, 'mem_list': usage_mem, 'usage_list': usage_cpu, 'cores': ["all", "1", "2", "3", "4"], 'io_list': usage_io,
-            'cpu_types': ["all", "sys", "idle", "soft"], 'types': ["AVG", "95", "99"], 'io_types': ["user", "sys", "wait", "idle", "tps", "read", "write"], 'mem_types':["mem", "cache", "swap"], 'execution_list': execution}
+            'cpu_types': ["all", "sys", "idle", "soft"], 'types': ["AVG", "95", "99"], 'io_types': ["user", "system", "wait", "idle", "tps", "read", "write"], 'mem_types':["mem", "cache", "swap"], 'execution_list': execution}
 
 
 
