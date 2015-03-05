@@ -70,6 +70,27 @@
             </tr>
         {% endfor %}
     </table>
+    <h1>Memory</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Type</th>
+            <th>Value</th>
+        </tr>
+        </thead>
+        {% for usage in mem_types %}
+            <tr>
+                <td>{{ usage }}</td>
+                <td>
+                    {%  for t in types %}
+                        <p>
+                            {{ t }} - {{ usage|mem_usage:t|get_item:mem_list }}
+                        </p>
+                    {% endfor %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
     <h1>Processes</h1>
     <table class="table">
         <thead>

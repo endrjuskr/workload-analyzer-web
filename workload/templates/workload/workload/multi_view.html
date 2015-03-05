@@ -84,6 +84,32 @@
     </table>
                 </div>
     {% endfor %}
+    <h1>Memory</h1>
+    {% for workload in workloads %}
+        <div class="workload_s">
+
+            <table class="table">
+        <thead>
+        <tr>
+            <th>Type</th>
+            <th>Value</th>
+        </tr>
+        </thead>
+        {% for usage in workload.mem_types %}
+            <tr>
+                <td>{{ usage }}</td>
+                <td>
+                    {%  for t in workload.types %}
+                        <p>
+                            {{ t }} - {{ usage|mem_usage:t|get_item:workload.mem_list }}
+                        </p>
+                    {% endfor %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+                </div>
+    {% endfor %}
     <h1>Processes</h1>
     {% for workload in workloads %}
         <div class="workload_s">

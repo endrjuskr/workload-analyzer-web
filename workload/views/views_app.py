@@ -70,13 +70,14 @@ def get_workload(workload_id):
     usage_cpu = WorkloadResult.objects.filter(workload=workload).filter(key__startswith='cpu')
     usage_cpu = dict(zip(map(lambda x: x.key, usage_cpu), map(lambda x: x.value, usage_cpu)))
     usage_io = WorkloadResult.objects.filter(workload=workload).filter(key__startswith='io')
+    usage_mem = WorkloadResult.objects.filter(workload=workload).filter(key__startswith='mem')
     usage_io = dict(zip(map(lambda x: x.key, usage_io), map(lambda x: x.value, usage_io)))
     execution = Execution.objects.filter(workload=workload)
     execution = map(
         lambda x: (x, ExecutionResult.objects.filter(execution=x), ExecutionParam.objects.filter(execution=x)),
         execution)
-    return {'workload': workload, 'usage_list': usage_cpu, 'cores': ["all", "1", "2", "3", "4"], 'io_list': usage_io,
-            'cpu_types': ["all", "sys", "idle", "soft"], 'types': ["AVG", "95", "99"], 'io_types': ["user", "wait"], 'execution_list': execution}
+    return {'workload': workload, 'mem_list': usage_mem, 'usage_list': usage_cpu, 'cores': ["all", "1", "2", "3", "4"], 'io_list': usage_io,
+            'cpu_types': ["all", "sys", "idle", "soft"], 'types': ["AVG", "95", "99"], 'io_types': ["user", "sys", "wait", "idle", "tps", "read", "write"], 'mem_types':["mem", "cache", "swap"], 'execution_list': execution}
 
 
 
@@ -116,6 +117,9 @@ def cpu_usage_2(arg1, arg2):
 def io_usage(arg1, arg2):
     return "io_{0}_{1}".format(arg1,arg2)
 
+@register.filter
+def mem_usage(arg1, arg2):
+    return "mem_{0}_{1}".format(arg1,arg2)
 
 
 def register(request):
