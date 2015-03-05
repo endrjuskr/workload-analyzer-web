@@ -5,6 +5,7 @@
     <table class="table">
         <thead>
         <tr>
+            <th></th>
             <th>Name</th>
             <th>Run date</th>
             <th>Machine</th>
@@ -13,6 +14,9 @@
         </thead>
         {% for workload in workload_list %}
             <tr>
+                <td>
+                    <input type="checkbox" class="ww" name="{{ workload.id }}" value="{{ workload.id }}" />
+                </td>
                 <td>{{ workload.name }}</td>
                 <td>{{ workload.run_date }}</td>
                 <td>{{ workload.run_machine.name }}</td>

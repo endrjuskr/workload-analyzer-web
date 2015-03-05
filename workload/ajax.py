@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from constants import *
 from utils import get_view_status_dictionary
 from workload.views.views_app import view_workload, get_registered_home_content, new_workload_comment, \
-    new_execution_comment
+    new_execution_comment, view_workloads
 
 
 @dajaxice_register
@@ -17,8 +17,8 @@ def view_workload_ajax(request, workload_id, form=None):
     return view_workload(request, workload_id)
 
 @dajaxice_register(method=REQUEST_METHOD_GET, name='workload.view_workloads')
-def view_workload_ajax(request, workloads, form=None):
-    return view_workload(request, workloads)
+def view_workloads_ajax(request, workloads, form=None):
+    return view_workloads(request, workloads)
 
 
 @dajaxice_register(method=REQUEST_METHOD_POST, name='workload.add_workload_comment_submit')

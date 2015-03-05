@@ -76,7 +76,7 @@ def get_workload(workload_id):
         lambda x: (x, ExecutionResult.objects.filter(execution=x), ExecutionParam.objects.filter(execution=x)),
         execution)
     return {'workload': workload, 'usage_list': usage_cpu, 'cores': ["all", "1", "2", "3", "4"], 'io_list': usage_io,
-            'cpu_types': ["all", "sys", "idle", "soft"],'io_types': ["user", "wait"], 'execution_list': execution}
+            'cpu_types': ["all", "sys", "idle", "soft"], 'types': ["AVG", "95", "99"], 'io_types': ["user", "wait"], 'execution_list': execution}
 
 
 
@@ -92,7 +92,7 @@ def view_workloads(request, workloads):
     status = ERROR_JS_CODE
     w = map(get_workload, workloads)
     return JsonResponse(
-        get_view_status_dictionary(status, render_to_string("workload/workload/view.html", { "workloads": w })))
+        get_view_status_dictionary(status, render_to_string("workload/workload/multi_view.html", { "workloads": w })))
 
 
 from django.template.defaulttags import register
@@ -100,16 +100,22 @@ from django.template.defaulttags import register
 
 @register.filter
 def get_item(key, dictionary):
-    t = ""
-    for p in ["AVG", "95", "99"]:
-        k = key + "_" + p
-        t += "<p>" + p + " - " + dictionary.get(k) + "</p>"
-    return
+    return dictionary.get(key)
 
 
 @register.filter
 def cpu_usage(arg1, arg2):
     return "cpu_usage_{0}_{1}".format(arg1, arg2)
+
+@register.filter
+def cpu_usage_2(arg1, arg2):
+    return "{0}_{1}".format(arg1, arg2)
+
+
+@register.filter
+def io_usage(arg1, arg2):
+    return "io_{0}_{1}".format(arg1,arg2)
+
 
 
 def register(request):

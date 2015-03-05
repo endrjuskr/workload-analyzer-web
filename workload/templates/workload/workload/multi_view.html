@@ -1,0 +1,124 @@
+{% block content %}
+    <h1>Info</h1>
+    {% for workload in workloads %}
+        <div class="workload_s">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Key</th>
+                    <th>Value</th>
+                </tr>
+                </thead>
+                <tr>
+                    <td>Name</td>
+                    <td>{{ workload.workload.name }}</td>
+                </tr>
+                <tr>
+                    <td>Description</td>
+                    <td>{{ workload.workload.description }}</td>
+                </tr>
+                <tr>
+                    <td>Machine</td>
+                    <td>{{ workload.workload.run_machine.name }}</td>
+                </tr>
+                <tr>
+                    <td>Run time</td>
+                    <td>{{ workload.workload.run_date }}</td>
+                </tr>
+            </table>
+        </div>
+    {% endfor %}
+    <h1>Usage</h1>
+    {% for workload in workloads %}
+        <div class="workload_s">
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Core</th>
+            {% for t in workload.cpu_types %}
+                <th>{{ t }}</th>
+            {% endfor %}
+        </tr>
+        </thead>
+        {% for usage in workload.cores %}
+            <tr>
+                <td>{{ usage }}</td>
+                {% for t in workload.cpu_types %}
+                    <td>
+                        {%  for q in workload.types %}
+                            <p>
+                                {{ q }} - {{ usage|cpu_usage:t| cpu_usage_2:q|get_item:workload.usage_list }}
+                            </p>
+                            {% endfor %}
+                            </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+                </div>
+    {% endfor %}
+    <h1>IO</h1>
+    {% for workload in workloads %}
+        <div class="workload_s">
+
+            <table class="table">
+        <thead>
+        <tr>
+            <th>Type</th>
+            <th>Value</th>
+        </tr>
+        </thead>
+        {% for usage in workload.io_types %}
+            <tr>
+                <td>{{ usage }}</td>
+                <td>
+                    {%  for t in workload.types %}
+                        <p>
+                            {{ t }} - {{ usage|io_usage:t|get_item:workload.io_list }}
+                        </p>
+                    {% endfor %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+                </div>
+    {% endfor %}
+    <h1>Processes</h1>
+    {% for workload in workloads %}
+        <div class="workload_s">
+
+            <table class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Task</th>
+            <th>Params</th>
+            <th>Results</th>
+        </tr>
+        </thead>
+        {% for execution, results, params in workload.execution_list %}
+            <tr>
+                <td>{{ execution.name }}</td>
+                <td>{{ execution.task.name }}</td>
+                <td>
+                    {% for p in params %}
+                        <p>
+                            {{ p.key }} - {{ p.value }}
+                        </p>
+                    {% endfor %}
+                </td>
+                <td>
+                    {% for p in results %}
+                        <p>
+                            {{ p.key }} - {{ p.value }}
+                        </p>
+                    {% endfor %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+        </div>
+    {% endfor %}
+    <button type="button" onclick="history.back();">Back</button>
+{% endblock %}

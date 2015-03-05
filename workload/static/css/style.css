@@ -6,3 +6,11 @@ body {
     padding: 40px 15px;
     text-align: center;
 }
+
+.pr_s {
+    float: left;
+    padding-right: 20;
+}
+.workload_s {
+    display: inline-block;
+}

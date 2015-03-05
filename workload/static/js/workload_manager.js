@@ -24,7 +24,13 @@ function view_workload(id) {
 }
 
 function view_workloads() {
-    render(Dajaxice.workload.view_workloads, {'workloads': id});
+    var searchIDs = $("input:checkbox:checked").map(function(){
+      return $(this).val();
+    }).get();
+    if(searchIDs.length == 0) {
+        return;
+    }
+    render(Dajaxice.workload.view_workloads, {'workloads': searchIDs});
 }
 
 

@@ -38,7 +38,13 @@
             <tr>
                 <td>{{ usage }}</td>
                 {% for t in cpu_types %}
-                    <td>{{ usage|cpu_usage:t|get_item:usage_list }}</td>
+                    <td>
+                        {%  for q in types %}
+                            <p>
+                                {{ q }} - {{ usage|cpu_usage:t| cpu_usage_2:q|get_item:usage_list }}
+                            </p>
+                            {% endfor %}
+                            </td>
                 {% endfor %}
             </tr>
         {% endfor %}
@@ -54,7 +60,13 @@
         {% for usage in io_types %}
             <tr>
                 <td>{{ usage }}</td>
-                <td>{{ usage|get_item:usage_list }}</td>
+                <td>
+                    {%  for t in types %}
+                        <p>
+                            {{ t }} - {{ usage|io_usage:t|get_item:io_list }}
+                        </p>
+                    {% endfor %}
+                </td>
             </tr>
         {% endfor %}
     </table>
