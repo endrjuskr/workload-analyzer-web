@@ -69,13 +69,26 @@ def new_execution_comment(request, execution_id, form=None):
 def view_workload(request, workload_id):
     status = ERROR_JS_CODE
     workload = Workload.objects.get(pk=workload_id)
-
-    usage = WorkloadResult.objects.filter(workload=workload, key__startwith='cpu')
+    usage_cpu = WorkloadResult.objects.filter(workload=workload).filter(key__startswith='cpu')
+    usage_cpu = dict(zip(map(lambda x: x.key, usage_cpu), map(lambda x: x.value, usage_cpu)))
+    usage_io = WorkloadResult.objects.filter(workload=workload).filter(key__startswith='io')
     execution = Execution.objects.filter(workload=workload)
     execution = map(lambda x: (x, ExecutionResult.objects.filter(execution=x), ExecutionParam.objects.filter(execution=x)), execution)
+    print "a"
     return JsonResponse(get_view_status_dictionary(status, render_to_string("workload/workload/view.html",
-                                                                            {'workload': workload, 'usage_list':usage, 'execution_list':execution },
+                                                                            {'workload': workload, 'usage_list':usage_cpu, 'cores': ["all", "1", "2", "3", "4"], 'io_list': usage_io, 'cpu_types': ["all", "sys", "idle", "soft"], 'execution_list':execution },
     )))
+
+from django.template.defaulttags import register
+
+@register.filter
+def get_item(key, dictionary):
+    print dictionary, key
+    return dictionary.get(key)
+
+@register.filter
+def cpu_usage(arg1, arg2):
+    return "cpu_usage_{0}_{1}".format(arg1, arg2)
 
 
 def register(request):

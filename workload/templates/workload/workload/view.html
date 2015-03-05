@@ -28,11 +28,30 @@
     <table class="table">
         <thead>
         <tr>
-            <th>Name</th>
+            <th>Core</th>
+            {% for t in cpu_types %}
+                <th>{{ t }}</th>
+            {% endfor %}
+        </tr>
+        </thead>
+        {% for usage in cores %}
+            <tr>
+                <td>{{ usage }}</td>
+                {% for t in cpu_types %}
+                    <td>{{ usage|cpu_usage:t|get_item:usage_list }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+    <h1>IO</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Key</th>
             <th>Value</th>
         </tr>
         </thead>
-        {% for usage in usage_list %}
+        {% for usage in io_list %}
             <tr>
                 <td>{{ usage.key }}</td>
                 <td>{{ usage.value }}</td>
