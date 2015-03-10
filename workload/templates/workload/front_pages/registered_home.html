@@ -8,6 +8,7 @@
             <th></th>
             <th>Name</th>
             <th>Run date</th>
+            <th>Measurement type</th>
             <th>Machine</th>
             <th>Show</th>
         </tr>
@@ -19,6 +20,7 @@
                 </td>
                 <td>{{ workload.name }}</td>
                 <td>{{ workload.run_date }}</td>
+                <td>{{ workload.measurement_type }}</td>
                 <td>{{ workload.run_machine.name }}</td>
                 <td>
                     <button type="button" onclick="new_workload_comment({{ workload.id }});">
