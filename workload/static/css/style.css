@@ -14,3 +14,7 @@ body {
 .workload_s {
     display: inline-block;
 }
+
+#main_content {
+    width: 100%;
+}

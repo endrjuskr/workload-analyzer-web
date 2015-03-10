@@ -24,11 +24,12 @@ class Task(models.Model):
 class Workload(models.Model):
     name = models.CharField(max_length=200)
     description = models.CharField(max_length=200)
+    measurement_type = models.IntegerField()
     run_date = models.DateTimeField('run date', default=datetime.now())
     run_machine = models.ForeignKey(Machine)
 
     def __unicode__(self):
-        return u'%s (%s)' % (self.name, str(self.run_date))
+        return u'%s (%s , %s)' % (self.name, str(self.run_date), str(self.measurement_type))
 
 
 class Execution(models.Model):
