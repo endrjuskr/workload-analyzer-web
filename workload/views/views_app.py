@@ -73,6 +73,7 @@ def get_workload(workload_id):
     usage_mem = WorkloadResult.objects.filter(workload=workload).filter(key__startswith='mem')
     usage_io = dict(zip(map(lambda x: x.key, usage_io), map(lambda x: x.value, usage_io)))
     usage_mem = dict(zip(map(lambda x: x.key, usage_mem), map(lambda x: x.value, usage_mem)))
+    usage_perf = WorkloadResult.objects.filter(workload=workload).filter(key__startswith='perf')
     execution = Execution.objects.filter(workload=workload)
     execution = map(
         lambda x: (x, ExecutionResult.objects.filter(execution=x), ExecutionParam.objects.filter(execution=x)),
@@ -84,6 +85,7 @@ def get_workload(workload_id):
             'cpu_types': ["usr", "sys", "idle", "soft", "iowait"],
             'types': ["AVG", "95", "99"],
             'io_types': ["tps", "read", "write"],
+            'perf_list': usage_perf,
             'mem_types': ["mem", "cache", "swap"],
             'execution_list': execution}
 

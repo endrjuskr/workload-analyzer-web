@@ -84,6 +84,29 @@
     </table>
                 </div>
     {% endfor %}
+
+    <h1>Perf</h1>
+{% for workload in workloads %}
+        <div class="workload_s">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Type</th>
+            <th>Value</th>
+        </tr>
+        </thead>
+        {% for usage in perf_list %}
+            <tr>
+                <td>{{ usage.key }}</td>
+                <td>
+                    {{ usage.value }}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+        </div>
+    {% endfor %}
+
     <h1>Memory</h1>
     {% for workload in workloads %}
         <div class="workload_s">
