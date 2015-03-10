@@ -68,14 +68,12 @@ def create_process(process, workload, date):
         workload_result.save()
 
 
-
 def create_workload(task, machine, measurement_type):
     d = time.strptime(task["run_time"], "%a, %d %b %Y %H:%M:%S +0000")
     from time import mktime
     from datetime import datetime
     d = datetime.fromtimestamp(mktime(d))
-
-    workload_model = Workload(run_machine=machine, name=task["name"], run_date=d, type=measurement_type)
+    workload_model = Workload(run_machine=machine, name=task["name"], run_date=d, measurement_type=measurement_type)
     workload_model.save()
     for c in task["usage"]:
         workload_result = WorkloadResult(workload=workload_model, key=c["key"], value=c["value"])
@@ -90,7 +88,7 @@ def add_workload(request):
     result = get_status_dictionary(True)
     workload = json.loads(request.body)
     machine = Machine.objects.get(pk=workload["machine"])
-    map(lambda x: create_workload(x, machine, workload["type"]), workload["tasks"])
+    map(lambda x: create_workload(x, machine, int(workload["type"])), workload["tasks"])
 
     #workload_model = Workload(run_machine=machine, run_date=time.strftime("%H:%M:%S %d/%m/%Y"), name=workload["name"])
     #workload_model.save()
